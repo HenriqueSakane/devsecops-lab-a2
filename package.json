@@ -1,0 +1,23 @@
+{
+  "name": "devsecops-lab-a2",
+  "version": "1.0.0",
+  "description": "## Aula 2 — Shift-Left na Prática: SAST, SCA e Secrets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "jest --verbose --coverage",
+    "lint": "eslint src/ tests/"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "globals": "^17.4.0",
+    "jest": "^30.3.0",
+    "supertest": "^7.2.2"
+  }
+}
