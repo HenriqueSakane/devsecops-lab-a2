@@ -111,17 +111,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Docker/GHCR exige repositório em minúsculas; github.repository preserva o case do owner.
+      - name: Nome da imagem GHCR (minúsculas)
+        run: |
+          echo "IMAGE_NAME=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+
       - name: Tag da imagem para GHCR
         run: |
           docker tag devsecops-lab-a2:${{ github.sha }} \
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ${IMAGE_NAME}:${{ github.sha }}
           docker tag devsecops-lab-a2:${{ github.sha }} \
-            ghcr.io/${{ github.repository }}:latest
+            ${IMAGE_NAME}:latest
 
       - name: Push para GHCR
         run: |
-          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
-          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ${IMAGE_NAME}:${{ github.sha }}
+          docker push ${IMAGE_NAME}:latest
 
       - name: Salvar imagem como artefato
         run: |
