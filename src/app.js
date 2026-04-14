@@ -9,6 +9,21 @@ const app = express();
 
 app.use(express.json());
 
+// INSEGURO — SQL injection via concatenação de string para teste
+app.get('/api/search', (req, res) => {
+  const query = "SELECT * FROM messages WHERE text = '" + req.query.q + "'";
+  pool.query(query).then(r => res.json(r.rows));
+});
+
+// SEGURO — parameterized query
+app.get('/api/search', async (req, res) => {
+  const result = await pool.query(
+    'SELECT * FROM messages WHERE text = $1',
+    [req.query.q]
+  );
+  res.json(result.rows);
+});
+
 // Health check — usado pelo Kubernetes, load balancers, etc.
 app.get('/health', (req, res) => {
   res.status(200).json({
@@ -41,12 +56,6 @@ app.post('/api/validate', (req, res) => {
     valid: true,
     email: email.toLowerCase().trim()
   });
-});
-
-// INSEGURO — SQL injection via concatenação de string para teste
-app.get('/api/search', (req, res) => {
-  const query = "SELECT * FROM messages WHERE text = '" + req.query.q + "'";
-  pool.query(query).then(r => res.json(r.rows));
 });
 
 module.exports = app;
