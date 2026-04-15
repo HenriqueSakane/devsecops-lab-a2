@@ -6,14 +6,15 @@
   "scripts": {
     "start": "node src/server.js",
     "test": "jest --verbose --coverage",
-    "lint": "eslint src/ tests/"
+    "lint": "eslint src/ tests/",
+    "init-db": "node src/init-db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^5.2.1",
-    "pg": "^8.16.0"
+    "pg": "^8.20.0"
   },
   "devDependencies": {
     "eslint": "^9.39.4",
